@@ -63,13 +63,33 @@ function Jobs() {
       jobType: "Internship",
       note: "n/a",
     },
+    {
+      id: 7,
+      companyName: "WebCom Solution Insosystems Pvt. Ltd.",
+      position: "Full Stack Intern",
+      appliedOn: "12-04-2026",
+      status: "Offer",
+      location: "Chandigarh",
+      jobType: "Internship",
+      note: "n/a",
+    },
+    {
+      id: 8,
+      companyName: "Some Company",
+      position: "Web Developer Intern",
+      appliedOn: "12-04-2026",
+      status: "Rejected",
+      location: "Chandigarh",
+      jobType: "Internship",
+      note: "n/a",
+    },
   ]);
 
   return (
-    <section className="min-h-screen w-full bg-slate-800 p-4 pb-18">
+    <section className="h-screen w-full bg-slate-800 p-4 pb-18 lg:pt-18 overflow-auto">
       <div className="h-full w-full flex flex-col items-start gap-6">
         <div className="w-full text-slate-100 text-3xl font-semibold">
-          <h1 className="">All Jobs</h1>
+          <h1 className="text-2xl md:text-4xl font-semibold">All Jobs</h1>
         </div>
         {/* filter div */}
         <div className="w-full flex items-center gap-4">
@@ -86,9 +106,9 @@ function Jobs() {
             </select>
           </div>
         </div>
-        <div className="w-full ">
+        <div className="w-full p-10">
           {jobData.length > 0 ? (
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               <JobCard jobData={jobData} />
             </div>
           ) : (

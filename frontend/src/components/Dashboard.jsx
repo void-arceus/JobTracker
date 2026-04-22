@@ -1,9 +1,11 @@
 function Dashboard() {
   return (
-    <section className="bg-slate-800 min-h-screen w-full pb-14 md:mt-12 md:mb-0 p-4">
+    <section className="bg-slate-800 min-h-screen w-full p-4 pb-14 lg:pt-18">
       <div className="flex flex-col items-start gap-4">
         <div className="w-full">
-          <h1 className="text-3xl text-slate-200 font-semibold">Dashboard</h1>
+          <h1 className="text-2xl md:text-4xl text-slate-200 font-semibold">
+            Dashboard
+          </h1>
         </div>
         <div className="h-fit w-full p-4">
           <div className="bg-slate-700 w-full md:max-w-xl p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-slate-500 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">

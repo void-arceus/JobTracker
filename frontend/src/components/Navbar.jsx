@@ -4,8 +4,8 @@ function Navbar() {
   const { currTab, handleCurrTabChange } = useNav();
 
   return (
-    <nav className="h-12 w-full bg-slate-900 fixed bottom-0 md:top-0 z-10">
-      <div className="h-full w-full flex items-center justify-around">
+    <nav className="h-12 lg:h-16 w-full bg-slate-900 fixed bottom-0 lg:top-0 z-10">
+      <div className="lg:hidden h-full w-full flex items-center justify-around">
         <div
           onClick={() => handleCurrTabChange("dashboard")}
           className={`${currTab === "dashboard" ? "bg-slate-700" : "bg-slate-900"} text-slate-100 h-full flex-1 flex items-center  justify-center text-base font-medium cursor-pointer px-2 select-none`}
@@ -29,6 +29,16 @@ function Navbar() {
           className={`${currTab === "profile" ? "bg-slate-700" : "bg-slate-900"} text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
         >
           <img src="/profile.png" alt="Dashboard" className="h-5" />
+        </div>
+      </div>
+
+      {/* for larger screens  */}
+      <div className="hidden lg:flex w-full h-full text-slate-200 items-center justify-between px-8">
+        <div>
+          <h1 className="text-2xl font-bold">JobTracker</h1>
+        </div>
+        <div>
+          <h1 className="text-lg font-semibold">void_arceus</h1>
         </div>
       </div>
     </nav>
