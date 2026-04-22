@@ -1,0 +1,5 @@
+@import "tailwindcss";
+* {
+  font-family: "Inter";
+  box-sizing: border-box;
+}
