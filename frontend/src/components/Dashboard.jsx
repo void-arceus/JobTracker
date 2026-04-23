@@ -1,6 +1,6 @@
 function Dashboard() {
   return (
-    <section className="bg-slate-800 min-h-screen w-full p-4 pb-14 lg:pt-18">
+    <section className="bg-slate-800 h-screen w-full p-2 pb-14 lg:pt-18 overflow-auto">
       <div className="flex flex-col items-start gap-4">
         <div className="w-full">
           <h1 className="text-2xl md:text-4xl text-slate-200 font-semibold">

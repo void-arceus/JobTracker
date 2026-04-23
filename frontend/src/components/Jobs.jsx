@@ -106,7 +106,7 @@ function Jobs() {
             </select>
           </div>
         </div>
-        <div className="w-full p-10">
+        <div className="w-full pb-10">
           {jobData.length > 0 ? (
             <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
               <JobCard jobData={jobData} />
