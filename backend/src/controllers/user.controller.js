@@ -2,9 +2,10 @@ const userModel = require("../models/user.model");
 
 async function UpdateUserProfile(req, res) {
   try {
+    console.log("Req.body:", req.body);
     const { data } = req.body;
     if (!data || Object.keys(data).length === 0) {
-      return res.status(400).json({ message: "No date provided" });
+      return res.status(400).json({ message: "No data provided" });
     }
     const validUpdates = ["username", "email", "role", "about", "location"];
     const updatedData = {};

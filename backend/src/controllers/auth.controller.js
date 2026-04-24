@@ -45,7 +45,6 @@ async function LoginUser(req, res) {
         .json({ message: "Missing or Invalid Credentials" });
     }
 
-    // find user in db
     const user = await userModel.findOne({ email: email });
     if (!user) {
       return res.status(401).json({ message: "Invalid Credentials" });
@@ -62,7 +61,7 @@ async function LoginUser(req, res) {
     res.cookie("token", token);
     return res.status(200).json({
       message: "Logged In Successfully!",
-      data: { name: user.username },
+      data: { username: user.username },
     });
   } catch (err) {
     console.log(err);
@@ -80,4 +79,33 @@ function LogoutUser(req, res) {
   }
 }
 
-module.exports = { RegisterUser, LoginUser, LogoutUser };
+async function GetCurrentUser(req, res) {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const verify = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verify) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const user = await userModel.findOne({ _id: verify.userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({
+      message: "User found",
+      data: {
+        username: user.username,
+        email: user.email,
+        location: user.location,
+        role: user.role,
+        about: user.about,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+module.exports = { RegisterUser, LoginUser, LogoutUser, GetCurrentUser };

@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditProfileForm from "./EditProfileForm";
+import { getCurrentUser } from "../api/user.api.js";
 
 function Profile() {
   const [showForm, setShowForm] = useState(false);
+  const [currUser, setCurrUser] = useState({});
+
+  useEffect(() => {
+    handleGetCurrentUser();
+  }, [showForm]);
+
+  async function handleGetCurrentUser() {
+    try {
+      const res = await getCurrentUser();
+      setCurrUser(res);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   function handleShowForm() {
     setShowForm((prev) => !prev);
@@ -21,23 +36,25 @@ function Profile() {
           <div className="w-full flex flex-col items-start gap-2 text-slate-200">
             <div className="flex items-center gap-3">
               <h1 className="text-md font-bold">Name:</h1>
-              <p>void_arceus</p>
+              <p>
+                {currUser.username !== undefined ? currUser.username : "n/a"}
+              </p>
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-md font-bold">Email:</h1>
-              <p>voidarceus1404@gmail.com</p>
+              <p>{currUser.email !== undefined ? currUser.email : ""}</p>
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-md font-bold">Location:</h1>
-              <p>Himachal</p>
+              <p>{currUser.location !== undefined ? currUser.location : ""}</p>
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-md font-bold">Role:</h1>
-              <p>Full Stack Developer</p>
+              <p>{currUser.role !== undefined ? currUser.role : ""}</p>
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-md font-bold">About:</h1>
-              <p>Lost in EndLess VOiD...</p>
+              <p>{currUser.about !== undefined ? currUser.about : ""}</p>
             </div>
             <button
               onClick={handleShowForm}

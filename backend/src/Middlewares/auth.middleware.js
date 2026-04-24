@@ -11,7 +11,6 @@ async function authUser(req, res, next) {
     if (!verify) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
     const isUser = await userModel.findOne({ _id: verify.userId });
     if (!isUser) {
       return res.status(401).json({ message: "Unauthorized" });

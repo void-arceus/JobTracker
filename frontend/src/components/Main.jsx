@@ -7,10 +7,12 @@ import SideBar from "./SideBar";
 import { useNav } from "../context/NavContext";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Spinner from "../Animations/Spinner";
 
 function Main() {
   const { currTab } = useNav();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {}, []);

@@ -54,8 +54,9 @@ async function GetJobs(req, res) {
 
 async function UpdateJob(req, res) {
   try {
-    const { jobId, data } = req.body;
-    if (!jobId || !data || Object.keys(data).length === 0) {
+    console.log(req.body);
+    const { data } = req.body;
+    if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ message: "Missing Data" });
     }
     const updatedData = {};
@@ -79,7 +80,7 @@ async function UpdateJob(req, res) {
     }
 
     const updatedJob = await jobsModel.findOneAndUpdate(
-      { _id: jobId, userId: req.user._id },
+      { _id: data._id, userId: req.user._id },
       { $set: updatedData },
       { new: true },
     );

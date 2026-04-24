@@ -1,7 +1,15 @@
 import { useNav } from "../context/NavContext";
+import { useAuth } from "../context/AuthContext";
+import { handleLogoutUser } from "../api/auth.api.js";
 
 function Navbar() {
+  const { currUser, logout } = useAuth();
   const { currTab, handleCurrTabChange } = useNav();
+
+  function handleLogout() {
+    handleLogoutUser();
+    logout();
+  }
 
   return (
     <nav className="h-12 lg:h-16 w-full bg-slate-900 fixed bottom-0 lg:top-0 z-10">
@@ -37,8 +45,16 @@ function Navbar() {
         <div>
           <h1 className="text-2xl font-bold">JobTracker</h1>
         </div>
-        <div>
-          <h1 className="text-lg font-semibold">void_arceus</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-semibold">
+            {currUser.username ? currUser.username : ""}
+          </h1>
+          <button
+            onClick={handleLogout}
+            className="border border-slate-600 bg-linear-to-r from-violet-500 to-fuchsia-500 p-1.5 px-2.5 rounded-lg text-base font-medium cursor-pointer hover:shadow-lg hover:shadow-violet-900"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>

@@ -1,10 +1,29 @@
+import { handleLogin } from "../api/auth.api.js";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useSpinner } from "../context/SpinnerContext";
+import Spinner from "../Animations/Spinner";
 
 function LoginForm() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { showSpinner } = useSpinner();
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const dataObj = Object.fromEntries(formData.entries());
+    try {
+      showSpinner(true);
+      const res = await handleLogin(dataObj);
+      login(res);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      showSpinner(false);
+    } finally {
+      showSpinner(false);
+    }
   }
   return (
     <div className="bg-slate-800 h-screen w-full flex items-center justify-center p-4">
@@ -15,12 +34,14 @@ function LoginForm() {
         <h1 className="text-3xl font-semibold text-slate-100">Login</h1>
         <input
           type="email"
+          name="email"
           placeholder="email"
           required
           className="w-full border bg-slate-700 border-slate-400 p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-600 transition ease-in-out duration-300 text-slate-100"
         />
         <input
           type="password"
+          name="password"
           placeholder="password"
           required
           className="w-full border bg-slate-700 border-slate-400 p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-600 transition ease-in-out duration-300 text-slate-100"
@@ -44,8 +65,9 @@ function LoginForm() {
         <div className="w-full flex flex-col items-center gap-3">
           <button
             type="submit"
-            className="w-full p-3 bg-linear-to-r from-violet-500  to-fuchsia-500 rounded-lg font-medium cursor-pointer shadow-purple-900 hover:shadow-lg"
+            className="w-full p-3 bg-linear-to-r from-violet-500  to-fuchsia-500 rounded-lg font-medium cursor-pointer shadow-purple-900 hover:shadow-lg flex items-center justify-center"
           >
+            <Spinner />
             Login
           </button>
           <button

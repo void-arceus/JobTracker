@@ -1,7 +1,18 @@
-function JobCard({ jobData }) {
+import { useNav } from "../context/NavContext";
+import { deleteJob, getUserJobs } from "../api/jobs.api.js";
+
+function JobCard({ jobData, handleJobsChange }) {
+  const { handleCurrTabChange, handleJobToUpdate, handleJobEditing } = useNav();
+
+  function handleDeleteJob(id) {
+    deleteJob(id);
+    handleJobsChange(id);
+    getUserJobs();
+  }
+
   return jobData.map((data) => (
     <div
-      key={data.id}
+      key={data._id}
       className="min-h-85 w-full text-slate-100 border border-slate-400 bg-slate-700 rounded-xl flex flex-col items-start gap-2"
     >
       {/* card header */}
@@ -48,10 +59,22 @@ function JobCard({ jobData }) {
       <div className="w-full px-4 font-medium text-base">Note: {data.note}</div>
       {/* footer */}
       <div className="w-full flex items-center justify-start gap-4 p-4">
-        <button className="p-1 px-4 bg-green-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-lg  transform hover:-translate-y-1 ease-in-out duration-300">
+        <button
+          onClick={() => {
+            handleCurrTabChange("add");
+            handleJobEditing(true);
+            handleJobToUpdate(data);
+          }}
+          className="p-1 px-4 bg-green-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-lg  transform hover:-translate-y-1 ease-in-out duration-300"
+        >
           Edit
         </button>
-        <button className="p-1 px-4 bg-red-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-md transform hover:-translate-y-1 ease-in-out duration-300">
+        <button
+          onClick={() => {
+            handleDeleteJob(data._id);
+          }}
+          className="p-1 px-4 bg-red-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-md transform hover:-translate-y-1 ease-in-out duration-300"
+        >
           Delete
         </button>
       </div>
