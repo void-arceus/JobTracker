@@ -1,22 +1,28 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleRegister } from "../api/auth.api.js";
-import { useSpinner } from "../context/SpinnerContext";
+import { useToast } from "../context/ToastContext";
 import Spinner from "../Animations/Spinner";
 
 function RegisterForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { showSpinner } = useSpinner();
+  const { showToast } = useToast();
 
   async function handleFormSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData.entries());
+    if (!dataObj.email || !dataObj.username) {
+      showToast("All fields are required", "error");
+      return;
+    }
     if (dataObj.password.trim() === "") {
-      alert("Missing Credentials!");
+      showToast("Missing Credentials", "error");
       return;
     }
     if (dataObj.password.trim() !== dataObj.confirmPassword.trim()) {
-      alert("You must enter same password");
+      showToast("Password do not match", "error");
       return;
     }
     const filteredObj = {
@@ -25,55 +31,74 @@ function RegisterForm() {
       password: dataObj.password.trim(),
     };
     try {
-      showSpinner(true);
+      setIsLoading(true);
       await handleRegister(filteredObj);
+      showToast("User Registered Successfully", "success");
+      navigate("/login");
     } catch (err) {
-      console.error(err);
-      showSpinner(false);
+      setIsLoading(false);
+      const message = err?.response?.data?.message || "Registration Failed";
+      showToast(message, "error");
     } finally {
-      showSpinner(false);
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className="bg-slate-800 h-screen w-full p-2 py-3 lg:pt-22 flex items-center justify-center">
+    <div className="relative bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 min-h-screen w-full p-2 py-3 lg:pt-18 lg:pb-18 flex items-center justify-center">
       <form
         onSubmit={handleFormSubmit}
-        className="w-full max-w-lg p-2 py-4 text-slate-100 flex flex-col items-center gap-4 border border-slate-500 rounded-2xl"
+        className="w-full max-w-lg p-2 sm:p-4 py-4 bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl flex flex-col items-center gap-4"
       >
-        <h1 className="text-3xl font-medium">Register</h1>
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          className="w-full border border-slate-600 outline-0 ring-0 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 bg-slate-700 transition ease-in-out duration-300"
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="e-mail"
-          className="w-full border border-slate-600 outline-0 ring-0 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 bg-slate-700 transition ease-in-out duration-300"
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="w-full border border-slate-600 outline-0 ring-0 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 bg-slate-700 transition ease-in-out duration-300"
-        />
-        <input
-          name="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          className="w-full border border-slate-600 outline-0 ring-0 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 bg-slate-700 transition ease-in-out duration-300"
-        />
+        <h1 className="text-3xl text-gray-800 font-bold tracking-wide">
+          CREATE ACCOUNT
+        </h1>
+        <div className="w-full flex flex-col items-start gap-1">
+          <label className="text-sm font-medium text-gray-700">Name:</label>
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500  transition ease-in-out duration-300"
+          />
+        </div>
+        <div className="w-full flex flex-col items-start gap-1">
+          <label className="text-sm font-medium text-gray-700">Email:</label>
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+          />
+        </div>
+        <div className="w-full flex flex-col items-start gap-1">
+          <label className="text-sm font-medium text-gray-700">Password:</label>
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+          />
+        </div>
+        <div className="w-full flex flex-col items-start gap-1">
+          <label className="text-sm font-medium text-gray-700">
+            Confirm Password:
+          </label>
+          <input
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+          />
+        </div>
         <div className="w-full">
-          <p>
+          <p className="text-gray-800 text-sm font-medium">
             Already have an account?
             <span
               onClick={() => {
                 navigate("/login");
               }}
-              className="text-base font-medium underline cursor-pointer text-red-400 hover:text-red-500"
+              className="text-sm font-medium underline cursor-pointer text-gray-700 hover:text-gray-800"
             >
               &nbsp;Login
             </span>
@@ -82,17 +107,17 @@ function RegisterForm() {
         <div className="w-full flex flex-col gap-4">
           <button
             type="submit"
-            className="w-full p-3.5 bg-linear-to-bl from-violet-500 to-fuchsia-500 rounded-lg hover:cursor-pointer hover:shadow-lg shadow-purple-800 text-base font-medium flex items-center justify-center"
+            disabled={isLoading}
+            className="w-full p-3 border border-purple-500/40 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-base font-medium cursor-pointer shadow-lg shadow-purple-500 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-purple-600"
           >
-            <Spinner />
-            Register
+            {isLoading ? <Spinner isLoading={isLoading} /> : "Register"}
           </button>
           <button
             type="button"
             onClick={() => {
-              navigate("/");
+              navigate("/login");
             }}
-            className="w-full p-3.5 hover:cursor-pointer border border-slate-500 rounded-lg hover:bg-slate-700"
+            className="w-full p-3 bg-white/25 border border-white/10 text-gray-800 font-medium hover:bg-white/35 rounded-lg cursor-pointer"
           >
             Cancel
           </button>

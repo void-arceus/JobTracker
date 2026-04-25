@@ -22,7 +22,7 @@ export async function updateJob(data) {
 }
 
 export async function deleteJob(id) {
-  axios
+  await axios
     .delete(`${BASE_URL}/jobs/deleteJob/${id}`)
     .then()
     .catch((err) => console.error(err));

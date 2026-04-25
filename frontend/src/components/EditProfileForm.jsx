@@ -1,9 +1,13 @@
 import { updateProfile } from "../api/user.api.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Spinner from "../Animations/Spinner";
+import { useToast } from "../context/ToastContext";
 
 function EditProfileForm({ handleShowForm }) {
   const [userData, setUserData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     getUserData();
@@ -16,93 +20,116 @@ function EditProfileForm({ handleShowForm }) {
         setUserData(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        showToast("Something went wrong!", "error");
       });
   }
 
-  async function handleUpdateProfile() {
+  async function handleUpdateProfile(e) {
+    e.preventDefault();
     try {
-      console.log("UserData type:", typeof userData);
-      const res = await updateProfile(userData);
+      setIsLoading(true);
+      await updateProfile(userData);
       getUserData();
+      showToast("Profile Updated!", "success");
       setTimeout(() => {
         handleShowForm();
       }, 300);
     } catch (err) {
-      console.error(err);
-      return;
+      setIsLoading(false);
+      showToast("Something went wrong!", "error");
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <form className="text-slate-200 max-w-lg w-full flex flex-col items-start gap-4">
-      <h2 className="text-lg font-medium text-slate-400">Edit Details</h2>
-      <input
-        type="text"
-        value={userData.username !== undefined ? userData.username : ""}
-        onChange={(e) => {
-          setUserData({ ...userData, username: e.target.value });
-        }}
-        placeholder="name"
-        className="w-full bg-slate-700 border border-slate-600 p-3 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-      />
-      <input
-        type="email"
-        value={userData.email !== undefined ? userData.email : ""}
-        onChange={(e) => {
-          setUserData({ ...userData, email: e.target.value });
-        }}
-        placeholder="email"
-        className="w-full bg-slate-700 border border-slate-600 p-3 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-      />
-      <input
-        type="text"
-        value={userData.location !== undefined ? userData.location : ""}
-        onChange={(e) => {
-          setUserData({ ...userData, location: e.target.value });
-        }}
-        placeholder="location"
-        className="w-full bg-slate-700 border border-slate-600 p-3 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-      />
-      <input
-        type="text"
-        value={userData.role !== undefined ? userData.role : ""}
-        onChange={(e) => {
-          setUserData({ ...userData, role: e.target.value });
-        }}
-        placeholder="role"
-        className="w-full bg-slate-700 border border-slate-600 p-3 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-      />
-      <textarea
-        type="text"
-        value={userData.about !== undefined ? userData.about : ""}
-        onChange={(e) => {
-          setUserData({ ...userData, about: e.target.value });
-        }}
-        placeholder="about"
-        className="w-full bg-slate-700 border border-slate-600 p-3 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300 resize-none"
-      />
-      <div className="w-full flex items-center gap-4">
-        <button
-          type="button"
-          onClick={() => handleShowForm()}
-          className="w-full text-base font-medium border-2 border-slate-500 p-2.5 rounded-lg hover:cursor-pointer hover:bg-slate-700"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={handleUpdateProfile}
-          className="w-full bg-linear-to-r from-violet-500 to-fuchsia-500 p-3 text-base font-medium rounded-lg hover:cursor-pointer shadow-sm shadow-violet-800 hover:shadow-md"
-        >
-          Update
-        </button>
-      </div>
-    </form>
+    <div className="h-full max-w-2xl mx-auto bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col gap-6">
+      <h2 className="text-center text-lg font-semibold text-gray-900">
+        Edit Profile
+      </h2>
+      <form
+        onSubmit={handleUpdateProfile}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-700">Username</label>
+          <input
+            type="text"
+            value={userData.username !== undefined ? userData.username : ""}
+            onChange={(e) => {
+              setUserData({ ...userData, username: e.target.value });
+            }}
+            placeholder="username"
+            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-700">Email</label>
+          <input
+            type="email"
+            value={userData.email !== undefined ? userData.email : ""}
+            onChange={(e) => {
+              setUserData({ ...userData, email: e.target.value });
+            }}
+            placeholder="Email"
+            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-700">Location</label>
+          <input
+            type="text"
+            value={userData.location !== undefined ? userData.location : ""}
+            onChange={(e) => {
+              setUserData({ ...userData, location: e.target.value });
+            }}
+            placeholder="username"
+            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-xs text-gray-700">Role</label>
+          <input
+            type="text"
+            value={userData.role !== undefined ? userData.role : ""}
+            onChange={(e) => {
+              setUserData({ ...userData, role: e.target.value });
+            }}
+            placeholder="username"
+            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+          />
+        </div>
+        <div className="md:col-span-2 flex flex-col gap-1">
+          <label className="text-xs text-gray-700">About</label>
+          <textarea
+            type="text"
+            rows="3"
+            value={userData.about !== undefined ? userData.about : ""}
+            onChange={(e) => {
+              setUserData({ ...userData, about: e.target.value });
+            }}
+            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+          />
+        </div>
+        <div className="col-span-full flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              handleShowForm();
+            }}
+            className="px-4 py-2 bg-white/20 hover:bg-white/30 text-gray-800 rounded-lg cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md shadow-purple-500/30 cursor-pointer"
+          >
+            {isLoading ? <Spinner isLoading={isLoading} /> : "Save Changes"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

@@ -1,81 +1,86 @@
 import { handleLogin } from "../api/auth.api.js";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useSpinner } from "../context/SpinnerContext";
+import { useState } from "react";
+import { useToast } from "../context/ToastContext";
 import Spinner from "../Animations/Spinner";
 
 function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { showSpinner } = useSpinner();
+  const { showToast } = useToast();
 
   async function handleFormSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const dataObj = Object.fromEntries(formData.entries());
     try {
-      showSpinner(true);
+      setIsLoading(true);
       const res = await handleLogin(dataObj);
       login(res);
       navigate("/");
     } catch (err) {
-      console.error(err);
-      showSpinner(false);
+      setIsLoading(false);
+      const message = err.response.data.message || "Login Failed";
+      showToast(message, "error");
     } finally {
-      showSpinner(false);
+      setIsLoading(false);
     }
   }
   return (
-    <div className="bg-slate-800 h-screen w-full flex items-center justify-center p-4">
+    <div className="relative h-screen w-full bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 flex items-center justify-center p-4">
       <form
         onSubmit={handleFormSubmit}
-        className="w-full max-w-sm text-slate-200 border border-slate-500 p-4 py-10 flex flex-col items-center gap-4 rounded-xl"
+        className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl w-full max-w-sm p-4 py-10 flex flex-col items-center gap-4"
       >
-        <h1 className="text-3xl font-semibold text-slate-100">Login</h1>
+        <h1 className="text-3xl font-bold text-gray-900 tracking-wide">
+          LOGIN
+        </h1>{" "}
         <input
           type="email"
           name="email"
           placeholder="email"
           required
-          className="w-full border bg-slate-700 border-slate-400 p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-600 transition ease-in-out duration-300 text-slate-100"
+          className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
         />
         <input
           type="password"
           name="password"
           placeholder="password"
           required
-          className="w-full border bg-slate-700 border-slate-400 p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-600 transition ease-in-out duration-300 text-slate-100"
+          className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
         />
         <div className="w-full flex flex-col items-start gap-1 text-md">
-          <p>
+          <p className="text-base text-gray-900 font-medium">
             Don't have an account? &nbsp;
             <a
               onClick={() => {
                 navigate("/register");
               }}
-              className="font-medium underline text-green-500 cursor-pointer hover:text-green-400"
+              className="font-semibold underline text-gray-800 cursor-pointer hover:text-gray-700"
             >
               Create
             </a>
           </p>
-          <p className="underline text-base cursor-pointer text-red-400 font-medium hover:text-red-300">
+          <p className="underline text-base cursor-pointer text-gray-800 font-medium hover:text-gray-700">
             Forgot Password
           </p>
         </div>
         <div className="w-full flex flex-col items-center gap-3">
           <button
             type="submit"
-            className="w-full p-3 bg-linear-to-r from-violet-500  to-fuchsia-500 rounded-lg font-medium cursor-pointer shadow-purple-900 hover:shadow-lg flex items-center justify-center"
+            disabled={isLoading}
+            className="w-full p-3 border border-purple-500/40 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium cursor-pointer shadow-lg shadow-purple-500 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-80"
           >
-            <Spinner />
-            Login
+            {isLoading ? <Spinner isLoading={isLoading} /> : "Login"}
           </button>
           <button
             type="button"
             onClick={() => {
               navigate("/");
             }}
-            className="w-full p-3 border border-slate-500 hover:bg-slate-700 rounded-lg cursor-pointer"
+            className="w-full p-3 bg-white/25 border border-white/10 text-gray-800 font-medium hover:bg-white/35 rounded-lg cursor-pointer"
           >
             Cancel
           </button>

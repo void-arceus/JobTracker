@@ -23,47 +23,43 @@ function Dashboard() {
     setJobSummary(obj);
   }
   return (
-    <section className="bg-slate-800 h-screen w-full p-2 pb-14 lg:pt-18 overflow-auto">
+    <section className="h-screen w-full p-4 pb-16 lg:pt-20 overflow-auto">
       <div className="flex flex-col items-start gap-4">
         <div className="w-full">
-          <h1 className="text-2xl md:text-4xl text-slate-200 font-semibold">
+          <h1 className="text-2xl md:text-4xl text-gray-800 font-semibold">
             Dashboard
           </h1>
         </div>
-        <div className="h-fit w-full p-4">
-          <div className="bg-slate-700 w-full md:max-w-xl p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-slate-500 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">
-            <h1 className="text-4xl text-slate-200 font-bold">
-              {userJobs.length === 0 ? 0 : Number(userJobs.length)}
-            </h1>
-            <p className="text-md text-slate-200 font-medium">
-              Total Applications
-            </p>
+        <div className="h-full w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6 transition-all ease-in duration-300">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+            <p className="text-sm text-gray-700">Total Applications</p>
+            <h2 className="text-3xl font-semibold text-gray-900">
+              {userJobs.length}
+            </h2>
           </div>
-        </div>
-        <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-6 transition-all ease-in duration-300 p-3">
-          <div className="bg-slate-700 w-full p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-yellow-400 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">
-            <h1 className="text-4xl text-yellow-400 font-bold">
-              {jobSummary.applied !== undefined ? jobSummary.applied : 0}
-            </h1>
-            <p className="text-md text-yellow-300 font-medium">Applied</p>
+          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+            <p className="text-sm text-gray-700">Applied</p>
+            <h2 className="text-2xl font-semibold text-yellow-600">
+              {jobSummary.applied || 0}
+            </h2>
           </div>
-          <div className="bg-slate-700 w-full p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-blue-500 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">
-            <h1 className="text-4xl text-blue-400 font-bold">
-              {jobSummary.interview !== undefined ? jobSummary.interview : 0}
-            </h1>
-            <p className="text-md text-blue-400 font-medium">Interviews</p>
+          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+            <p className="text-sm text-gray-700">Interview</p>
+            <h2 className="text-2xl font-semibold text-blue-500">
+              {jobSummary.interview || 0}
+            </h2>
           </div>
-          <div className="bg-slate-700 w-full p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-red-400 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">
-            <h1 className="text-4xl text-red-400 font-bold">
-              {jobSummary.rejected !== undefined ? jobSummary.rejected : 0}
-            </h1>
-            <p className="text-md text-red-400 font-medium">Rejected</p>
+          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+            <p className="text-sm text-gray-700">Offer</p>
+            <h2 className="text-2xl font-semibold text-green-600">
+              {jobSummary.offer || 0}
+            </h2>
           </div>
-          <div className="bg-slate-700 w-full p-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-green-500 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all ease-in-out duration-300">
-            <h1 className="text-4xl text-green-400 font-bold">
-              {jobSummary.offer !== undefined ? jobSummary.offer : 0}
-            </h1>
-            <p className="text-md text-green-400 font-medium">Offer</p>
+          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+            <p className="text-sm text-gray-700">Rejected</p>
+            <h2 className="text-2xl font-semibold text-red-500">
+              {jobSummary.rejected || 0}
+            </h2>
           </div>
         </div>
       </div>

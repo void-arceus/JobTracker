@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { addNewJob, getUserJobs, updateJob } from "../api/jobs.api.js";
 import { useNav } from "../context/NavContext";
-import { useSpinner } from "../context/SpinnerContext";
+import { useToast } from "../context/ToastContext";
 import Spinner from "../Animations/Spinner";
 
 function AddForm() {
@@ -12,7 +12,6 @@ function AddForm() {
     jobToUpdate,
     handleJobToUpdate,
   } = useNav();
-  const { showSpinner } = useSpinner();
 
   const [company, setCompany] = useState(
     jobEditing ? jobToUpdate.companyName : "",
@@ -29,6 +28,8 @@ function AddForm() {
   const [status, setStatus] = useState(
     jobEditing ? jobToUpdate.status : "applied",
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToast();
 
   async function handleFormSubmit(e) {
     e.preventDefault();
@@ -42,27 +43,29 @@ function AddForm() {
       !dataObj.jobType ||
       !dataObj.status
     ) {
-      alert("Data Missing");
+      showToast("Data Missing", "error");
       return;
     }
     try {
-      showSpinner(true);
+      setIsLoading(true);
       if (jobEditing) {
         dataObj._id = jobToUpdate._id;
-        const res = await updateJob(dataObj);
+        await updateJob(dataObj);
         handleJobEditing(false);
         handleJobToUpdate({});
+        showToast("Job Updated Successfully", "success");
       } else {
-        const res = await addNewJob(dataObj);
+        await addNewJob(dataObj);
+        showToast("Job Added Successfully", "success");
       }
       getUserJobs();
       clearInputFields();
       handleCurrTabChange("jobs");
     } catch (err) {
-      showSpinner(false);
-      console.error(err);
+      setIsLoading(false);
+      showToast("Something went wrong", "error");
     } finally {
-      showSpinner(false);
+      setIsLoading(false);
     }
   }
 
@@ -74,7 +77,7 @@ function AddForm() {
       setJob("");
       setDate("");
       setNote("");
-    }, 500);
+    }, 300);
   }
 
   function handleCancelJobEdit() {
@@ -85,136 +88,121 @@ function AddForm() {
   }
 
   return (
-    <section className="h-screen w-full p-2 bg-slate-800 text-slate-100 pb-14 lg:pt-16 overflow-auto">
-      <div className="w-full">
-        <div className="w-full border-slate-400 rounded-2xl p-2 flex flex-col items-start gap-6">
-          <h1 className="text-2xl md:text-4xl text-slate-200 font-semibold">
-            Add Job
-          </h1>
-          <form
-            onSubmit={handleFormSubmit}
-            className="w-full max-w-3xl flex flex-col items-start gap-6"
-          >
-            <div className="w-full max-w-3xl grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="w-full">
-                <input
-                  name="companyName"
-                  placeholder="Company Name"
-                  value={company}
-                  onChange={(e) => {
-                    setCompany(e.target.value);
-                  }}
-                  required
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-                />
-              </div>
-              <div className="w-full">
-                <input
-                  name="position"
-                  value={position}
-                  onChange={(e) => {
-                    setPosition(e.target.value);
-                  }}
-                  placeholder="Position"
-                  required
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-                />
-              </div>
-              <div className="w-full">
-                <input
-                  name="location"
-                  value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                  }}
-                  placeholder="Location"
-                  required
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-                />
-              </div>
-              <div className="w-full">
-                <input
-                  name="jobType"
-                  value={job}
-                  onChange={(e) => {
-                    setJob(e.target.value);
-                  }}
-                  placeholder="Job Type"
-                  required
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-                />
-              </div>
-              <div className="w-full flex flex-col md:flex-row md:items-center items-start gap-2">
-                <label className="text-base font-medium">Applied on:</label>
-                <input
-                  name="appliedOn"
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e.target.value);
-                  }}
-                  type="date"
-                  required
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
-                />
-              </div>
-              <div className="flex items-center gap-3">
-                <label className="text-md font-medium">Status:</label>
-                <select
-                  name="status"
-                  value={status}
-                  onChange={(e) => {
-                    setStatus(e.target.value);
-                  }}
-                  className="border w-full p-3.5 px-4 bg-slate-700 rounded-lg text-md font-medium border-slate-600 cursor-pointer"
-                >
-                  <option value="applied">Applied</option>
-                  <option value="interview">Interview</option>
-                  <option value="offer">Offer</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-              <div className="w-full">
-                <textarea
-                  name="note"
-                  value={note}
-                  onChange={(e) => {
-                    setNote(e.target.value);
-                  }}
-                  placeholder="Note: (40 Chars max)"
-                  className="w-full bg-slate-700 border border-slate-600 p-3.5 rounded-lg ring-0 outline-0 
-                focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300 resize-none"
-                />
-              </div>
-            </div>
-            <div className="w-full flex items-center gap-4">
-              <button
-                type="button"
-                onClick={
-                  jobEditing
-                    ? handleCancelJobEdit
-                    : () => {
-                        clearInputFields();
-                      }
-                }
-                className="w-full p-3 rounded-xl border-2 border-slate-400 hover:cursor-pointer hover:bg-slate-700"
-              >
-                {jobEditing ? "Cancel" : "Clear"}
-              </button>
-              <button
-                type="submit"
-                className="w-full  bg-violet-500 rounded-xl p-3.5 cursor-pointer hover:bg-violet-600 flex items-center justify-center"
-              >
-                <Spinner />
-                {jobEditing ? "Update" : "Add"}
-              </button>
-            </div>
-          </form>
-        </div>
+    <section className="min-h-screen w-full px-2 pt-4 pb-16 lg:px-0 lg:pt-24">
+      <div className="h-auto max-w-3xl mx-auto bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
+        <h1 className="text-2xl text-gray-800 font-bold text-center">
+          Add Job
+        </h1>
+        <form
+          onSubmit={handleFormSubmit}
+          className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">Company Name</label>
+            <input
+              name="companyName"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              type="text"
+              required
+              placeholder="Company Name"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">Position </label>
+            <input
+              name="position"
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              type="text"
+              required
+              placeholder="Position"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">Location</label>
+            <input
+              name="location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              type="text"
+              required
+              placeholder="Location"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">JobType </label>
+            <input
+              name="jobType"
+              value={job}
+              onChange={(e) => setJob(e.target.value)}
+              type="text"
+              required
+              placeholder="Job Type"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">Applied On </label>
+            <input
+              name="appliedOn"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              type="date"
+              required
+              placeholder="Applied On"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-700">Status </label>
+            <select
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              required
+              placeholder="Position"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 cursor-pointer outline-none transition duration-300"
+            >
+              <option value="applied">Applied</option>
+              <option value="interview">Interview</option>
+              <option value="offer">Offer</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1 col-span-full">
+            <label className="text-xs text-gray-700">Note </label>
+            <textarea
+              name="note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              type="text"
+              placeholder="Add a note...(Optional)"
+              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+            />
+          </div>
+          <div className="col-span-full flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                jobEditing ? handleCancelJobEdit() : clearInputFields();
+              }}
+              className="px-4 py-2 bg-white/20 hover:bg-white/30 text-gray-800 rounded-lg cursor-pointer"
+            >
+              {jobEditing ? "Cancel" : "Clear"}
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md shadow-purple-500/30 cursor-pointer flex items-center justify-center"
+            >
+              <Spinner isLoading={isLoading} />
+              {jobEditing ? "Update Job" : "Add Job"}
+            </button>
+          </div>
+        </form>
       </div>
     </section>
   );

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import JobCard from "./JobCard";
 import { getUserJobs } from "../api/jobs.api.js";
-import { useSpinner } from "../context/SpinnerContext";
 import Spinner from "../Animations/Spinner";
+import { useToast } from "../context/ToastContext";
 
 function Jobs() {
   const [jobData, setJobData] = useState([]);
-  const { isLoading, showSpinner } = useSpinner();
+  const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useToast();
 
   useEffect(() => {
     getJobs();
@@ -18,25 +19,25 @@ function Jobs() {
 
   async function getJobs() {
     try {
-      showSpinner(true);
+      setIsLoading(true);
       const jobs = await getUserJobs();
       setJobData(jobs);
     } catch (err) {
-      showSpinner(false);
-      console.error(err);
+      setIsLoading(false);
+      showToast("Something went wrong", "error");
     } finally {
-      showSpinner(false);
+      setIsLoading(false);
     }
   }
 
   return (
-    <section className="h-screen w-full bg-slate-800 p-4 pb-18 lg:pt-18 overflow-auto">
+    <section className="h-screen w-full p-4 pb-18 lg:pt-18 overflow-auto">
       {isLoading ? (
         <div className="w-full h-full flex items-center justify-center">
-          <Spinner />
+          <Spinner isLoading={isLoading} />
         </div>
       ) : (
-        <div className="h-full w-full flex flex-col items-start gap-6">
+        <div className={`h-full w-full flex flex-col items-start gap-6`}>
           <div className="w-full text-slate-100 text-3xl font-semibold">
             <h1 className="text-2xl md:text-4xl font-semibold">All Jobs</h1>
           </div>
@@ -55,7 +56,7 @@ function Jobs() {
               </select>
             </div>
           </div>
-          <div className="w-full pb-10">
+          <div className="h-full w-full pb-10">
             {jobData.length > 0 ? (
               <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 place-items-center">
                 <JobCard
@@ -64,8 +65,10 @@ function Jobs() {
                 />
               </div>
             ) : (
-              <div className="min-w-full border border-slate-100 flex">
-                <h1 className="text-slate-100">No Data Found</h1>
+              <div className="h-full w-full flex items-center justify-center">
+                <h1 className="text-slate-400 text-xl md:text-6xl font-bold">
+                  No Data Found
+                </h1>
               </div>
             )}
           </div>

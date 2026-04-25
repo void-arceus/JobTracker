@@ -5,10 +5,9 @@ import Profile from "./Profile";
 import AddForm from "./AddForm";
 import SideBar from "./SideBar";
 import { useNav } from "../context/NavContext";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Spinner from "../Animations/Spinner";
 
 function Main() {
   const { currTab } = useNav();
@@ -18,19 +17,21 @@ function Main() {
   useEffect(() => {}, []);
 
   return isLoggedIn ? (
-    <main className="h-screen w-full">
+    <main className="h-screen w-full bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 flex flex-col overflow-hidden">
       <Navbar />
-      <div className="w-full h-full flex items-center">
+      <div className="flex flex-1 overflow-hidden">
         <SideBar />
-        {currTab === "dashboard" ? (
-          <Dashboard />
-        ) : currTab === "jobs" ? (
-          <Jobs />
-        ) : currTab === "add" ? (
-          <AddForm />
-        ) : currTab === "profile" ? (
-          <Profile />
-        ) : null}
+        <div className="flex-1 overflow-y-auto">
+          {currTab === "dashboard" ? (
+            <Dashboard />
+          ) : currTab === "jobs" ? (
+            <Jobs />
+          ) : currTab === "add" ? (
+            <AddForm />
+          ) : currTab === "profile" ? (
+            <Profile />
+          ) : null}
+        </div>
       </div>
     </main>
   ) : (

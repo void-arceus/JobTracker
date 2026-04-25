@@ -1,13 +1,29 @@
+import { useState } from "react";
 import { useNav } from "../context/NavContext";
 import { deleteJob, getUserJobs } from "../api/jobs.api.js";
+import { useToast } from "../context/ToastContext";
+import Spinner from "../Animations/Spinner";
 
 function JobCard({ jobData, handleJobsChange }) {
   const { handleCurrTabChange, handleJobToUpdate, handleJobEditing } = useNav();
+  const { showToast } = useToast();
+  const [jobIdToDelete, setJobIdToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleDeleteJob(id) {
-    deleteJob(id);
-    handleJobsChange(id);
-    getUserJobs();
+  async function handleDeleteJob(id) {
+    try {
+      setJobIdToDelete(id);
+      setIsLoading(true);
+      await deleteJob(id);
+      showToast("Job Removed Successfully", "success");
+      handleJobsChange(id);
+      getUserJobs();
+    } catch (err) {
+      showToast("Something went wrong!", "error");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return jobData.map((data) => (
@@ -73,8 +89,11 @@ function JobCard({ jobData, handleJobsChange }) {
           onClick={() => {
             handleDeleteJob(data._id);
           }}
-          className="p-1 px-4 bg-red-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-md transform hover:-translate-y-1 ease-in-out duration-300"
+          className="p-1 px-4 bg-red-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-md transform hover:-translate-y-1 ease-in-out duration-300 flex items-center justify-center"
         >
+          {jobIdToDelete === data._id ? (
+            <Spinner isLoading={isLoading} />
+          ) : null}
           Delete
         </button>
       </div>

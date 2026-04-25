@@ -14,8 +14,8 @@ export async function handleRegister(userData) {
     .catch((err) => console.error(err));
 }
 
-export function handleLogoutUser() {
-  axios
+export async function handleLogoutUser() {
+  await axios
     .post(`${BASE_URL}/auth/logout`)
     .then()
     .catch((err) => {
