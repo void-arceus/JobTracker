@@ -3,7 +3,7 @@ import { useState, useContext, createContext } from "react";
 const NavContext = createContext();
 
 export const NavProvider = ({ children }) => {
-  const [currTab, setCurrTab] = useState("dashboard");
+  const [currTab, setCurrTab] = useState("profile");
   const [jobEditing, setJobEditing] = useState(false);
   const [jobToUpdate, setJobToUpdate] = useState({});
 

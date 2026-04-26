@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNav } from "../context/NavContext";
-import { deleteJob, getUserJobs } from "../api/jobs.api.js";
+import { deleteJob } from "../api/jobs.api.js";
 import { useToast } from "../context/ToastContext";
 import Spinner from "../Animations/Spinner";
 
-function JobCard({ jobData, handleJobsChange }) {
+function JobCard({ job, handleJobsChange }) {
   const { handleCurrTabChange, handleJobToUpdate, handleJobEditing } = useNav();
   const { showToast } = useToast();
+
   const [jobIdToDelete, setJobIdToDelete] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,91 +15,95 @@ function JobCard({ jobData, handleJobsChange }) {
     try {
       setJobIdToDelete(id);
       setIsLoading(true);
+
       await deleteJob(id);
+
       showToast("Job Removed Successfully", "success");
       handleJobsChange(id);
-      getUserJobs();
     } catch (err) {
       showToast("Something went wrong!", "error");
-      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
   }
 
-  return jobData.map((data) => (
-    <div
-      key={data._id}
-      className="min-h-85 w-full text-slate-100 border border-slate-400 bg-slate-700 rounded-xl flex flex-col items-start gap-2"
-    >
-      {/* card header */}
-      <div className="w-full flex items-center justify-start gap-4 p-4 border-b border-gray-400">
-        <div className="w-10">
-          <p className="h-10 w-10 bg-blue-400 rounded-full flex items-center justify-center text-xl text-slate-100 font-bold">
-            {data.companyName[0]}
-          </p>
+  const statusStyles = {
+    applied: "bg-yellow-100 text-yellow-700",
+    interview: "bg-blue-100 text-blue-700",
+    rejected: "bg-red-100 text-red-700",
+    offer: "bg-green-100 text-green-700",
+  };
+
+  return (
+    <div className="w-full bg-white/15 backdrop-blur-xl border border-white/20 rounded-xl p-5 flex flex-col gap-4 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
+      {/* HEADER */}
+      <div className="flex items-center gap-4 border-b border-white/20 pb-3">
+        <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gradient-to-br from-violet-500 to-indigo-500 text-white font-bold text-lg">
+          {job.companyName?.charAt(0).toUpperCase()}
         </div>
-        <div className="w-full">
-          <h1 className="text-base font-medium text-white">{data.position}</h1>
-          <h2 className="text-xs font-normal text-slate-100">
-            {data.companyName}
+
+        <div>
+          <h2 className="text-base font-semibold text-gray-900">
+            {job.position}
           </h2>
+          <p className="text-sm text-gray-600">{job.companyName}</p>
         </div>
       </div>
-      {/* hero section */}
-      <div className="w-full p-4 flex items-center justify-between">
-        <div className="w-1/2 flex flex-col gap-2 items-start">
-          <div className="w-full flex items-center gap-2">
-            <img src="/location.png" alt="location-logo" className="h-5" />
-            <p>{data.location}</p>
-          </div>
-          <div className="w-full flex items-center gap-2">
-            <img src="briefcase.png" alt="type-logo" className="h-5" />
-            <p>{data.jobType}</p>
-          </div>
-        </div>
-        <div className="w-1/2 flex flex-col gap-4 items-start">
-          <div className="w-full flex items-center gap-2">
-            <img src="/calendar.png" alt="calendar-logo" className="h-5" />
-            <p>{data.appliedOn}</p>
-          </div>
-          <div className="w-full text-center">
-            <p
-              className={`max-w-40 ${data.status.toLowerCase() === "applied" ? "bg-yellow-400 text-yellow-800" : data.status.toLowerCase() === "interview" ? "bg-blue-400 text-blue-800" : data.status.toLowerCase() === "rejected" ? "bg-red-400 text-red-800" : data.status.toLowerCase() === "offer" ? "bg-green-400 text-green-800" : ""} text-blue-100 p-1 rounded-lg font-medium`}
-            >
-              {data.status}
-            </p>
-          </div>
-        </div>
+
+      {/* DETAILS */}
+      <div className="grid grid-cols-2 gap-3 text-sm text-gray-700">
+        <p className="flex items-center gap-2">
+          <img src="/location.png" className="h-5" /> {job.location}
+        </p>
+        <p className="flex items-center gap-2">
+          <img src="/briefcase.png" className="h-5" />
+          {job.jobType}
+        </p>
+        <p className="flex items-center gap-2">
+          <img src="/calendar.png" className="h-5" /> {job.appliedOn}
+        </p>
+
+        <p
+          className={`w-fit px-3 py-1 rounded-full text-xs font-medium ${
+            statusStyles[job.status]
+          }`}
+        >
+          {job.status}
+        </p>
       </div>
-      {/* note */}
-      <div className="w-full px-4 font-medium text-base">Note: {data.note}</div>
-      {/* footer */}
-      <div className="w-full flex items-center justify-start gap-4 p-4">
+
+      {/* NOTE */}
+      {job.note && (
+        <p className="text-sm text-gray-700">
+          <span className="font-medium text-gray-900">Note:</span> {job.note}
+        </p>
+      )}
+
+      {/* ACTIONS */}
+      <div className="flex items-center gap-3 mt-2">
         <button
           onClick={() => {
             handleCurrTabChange("add");
             handleJobEditing(true);
-            handleJobToUpdate(data);
+            handleJobToUpdate(job);
           }}
-          className="p-1 px-4 bg-green-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-lg  transform hover:-translate-y-1 ease-in-out duration-300"
+          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-medium shadow-md shadow-purple-500/30 transition hover:cursor-pointer"
         >
           Edit
         </button>
+
         <button
-          onClick={() => {
-            handleDeleteJob(data._id);
-          }}
-          className="p-1 px-4 bg-red-500 rounded-lg font-medium text-slate-100 cursor-pointer shadow-md hover:shadow-md transform hover:-translate-y-1 ease-in-out duration-300 flex items-center justify-center"
+          onClick={() => handleDeleteJob(job._id)}
+          className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl text-sm font-medium transition hover:cursor-pointer"
         >
-          {jobIdToDelete === data._id ? (
+          {jobIdToDelete === job._id && isLoading && (
             <Spinner isLoading={isLoading} />
-          ) : null}
+          )}
           Delete
         </button>
       </div>
     </div>
-  ));
+  );
 }
 
 export default JobCard;
