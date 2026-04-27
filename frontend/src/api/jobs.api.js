@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function getUserJobs() {
-  const res = await axios.get(`${BASE_URL}/jobs/getJobs`);
+  const res = await axios.get(`${BASE_URL}/api/jobs/getJobs`);
   return res.data.data;
 }
 

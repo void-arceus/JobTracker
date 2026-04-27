@@ -17,7 +17,7 @@ function EditProfileForm({ handleShowForm }) {
 
   function getUserData() {
     axios
-      .get(`${BASE_URL}/auth/currentUser`)
+      .get(`${BASE_URL}/api/auth/currentUser`)
       .then((res) => {
         setUserData(res.data.data);
       })

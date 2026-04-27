@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function updateProfile(data) {
-  const res = await axios.patch(`${BASE_URL}/user/updateProfile`, {
+  const res = await axios.patch(`${BASE_URL}/api/user/updateProfile`, {
     data: data,
   });
   return res;
