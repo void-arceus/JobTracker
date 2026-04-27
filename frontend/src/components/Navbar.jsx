@@ -1,14 +1,34 @@
 import { useNav } from "../context/NavContext";
 import { useAuth } from "../context/AuthContext";
 import { handleLogoutUser } from "../api/auth.api.js";
+import { getCurrentUser } from "../api/user.api.js";
+import { useState, useEffect } from "react";
+import { useToast } from "../context/ToastContext";
 
 function Navbar() {
-  const { currUser, logout } = useAuth();
+  const [currUser, setCurrUser] = useState([]);
+  const { logout } = useAuth();
+  const { showToast } = useToast();
   const { currTab, handleCurrTabChange } = useNav();
 
+  useEffect(() => {
+    currentUser();
+  }, []);
+
   function handleLogout() {
-    handleLogoutUser();
-    logout();
+    try {
+      handleLogoutUser();
+      logout();
+      showToast("Logged Out", "success");
+    } catch (err) {
+      const message = err?.response?.data?.message || "Something went wrong";
+      showToast(message, "error");
+    }
+  }
+
+  async function currentUser() {
+    const res = await getCurrentUser();
+    setCurrUser(res);
   }
 
   return (

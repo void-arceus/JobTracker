@@ -6,35 +6,61 @@ import AddForm from "./AddForm";
 import SideBar from "./SideBar";
 import LandingPage from "./LandingPage";
 import { useNav } from "../context/NavContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import Spinner from "../Animations/Spinner";
+import { useToast } from "../context/ToastContext";
+import { getCurrentUser } from "../api/user.api.js";
 
 function Main() {
   const { currTab } = useNav();
-  const { isLoggedIn } = useAuth();
+  const { showToast } = useToast();
+  const { isLoggedIn, login } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    CurrentUser();
+  }, []);
 
-  useEffect(() => {}, []);
+  async function CurrentUser() {
+    try {
+      const res = await getCurrentUser();
+      login(res);
+    } catch (err) {
+      const message = err?.response?.data?.message || "Something went wrong";
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-  return isLoggedIn ? (
-    <main className="h-screen w-full bg-gradient-to-br from-white via-slate-100 to-gray-200 flex flex-col overflow-hidden">
-      <Navbar />
-      <div className="flex flex-1 overflow-hidden">
-        <SideBar />
-        <div className="flex-1 overflow-y-auto">
-          {currTab === "dashboard" ? (
-            <Dashboard />
-          ) : currTab === "jobs" ? (
-            <Jobs />
-          ) : currTab === "add" ? (
-            <AddForm />
-          ) : currTab === "profile" ? (
-            <Profile />
-          ) : null}
+  return (
+    <>
+      {isLoading ? (
+        <div className="h-screen w-full flex flex-col items-center justify-center">
+          <Spinner isLoading={isLoading} />
         </div>
-      </div>
-    </main>
-  ) : (
-    <LandingPage />
+      ) : isLoggedIn ? (
+        <main className="h-screen w-full bg-gradient-to-br from-white via-slate-100 to-gray-200 flex flex-col overflow-hidden">
+          <Navbar />
+          <div className="flex flex-1 overflow-hidden">
+            <SideBar />
+            <div className="flex-1 overflow-y-auto">
+              {currTab === "dashboard" ? (
+                <Dashboard />
+              ) : currTab === "jobs" ? (
+                <Jobs />
+              ) : currTab === "add" ? (
+                <AddForm />
+              ) : currTab === "profile" ? (
+                <Profile />
+              ) : null}
+            </div>
+          </div>
+        </main>
+      ) : (
+        <LandingPage />
+      )}
+    </>
   );
 }
 export default Main;

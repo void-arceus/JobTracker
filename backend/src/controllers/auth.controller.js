@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { setTokenCookie, clearTokenCookie } = require("../utils/setTokenCookie");
 
 async function RegisterUser(req, res) {
   try {
@@ -26,7 +27,7 @@ async function RegisterUser(req, res) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    setTokenCookie(res, cookie);
     return res.status(201).json({
       message: "User Created Successfully!",
       data: user,
@@ -58,7 +59,7 @@ async function LoginUser(req, res) {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    setTokenCookie(res, token);
     return res.status(200).json({
       message: "Logged In Successfully!",
       data: { username: user.username },
@@ -71,7 +72,7 @@ async function LoginUser(req, res) {
 
 function LogoutUser(req, res) {
   try {
-    res.clearCookie("token");
+    clearTokenCookie(res);
     return res.status(200).json({ message: "Logout Successfully!" });
   } catch (err) {
     console.log(err);

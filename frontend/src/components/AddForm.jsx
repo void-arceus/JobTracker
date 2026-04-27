@@ -24,7 +24,7 @@ function AddForm() {
   );
   const [job, setJob] = useState(jobEditing ? jobToUpdate.jobType : "");
   const [date, setDate] = useState(jobEditing ? jobToUpdate.appliedOn : "");
-  const [note, setNote] = useState(jobEditing ? jobToUpdate.about : "");
+  const [note, setNote] = useState(jobEditing ? jobToUpdate.note : "");
   const [status, setStatus] = useState(
     jobEditing ? jobToUpdate.status : "applied",
   );

@@ -20,6 +20,7 @@ function LoginForm() {
       const res = await handleLogin(dataObj);
       login(res);
       navigate("/");
+      showToast("Logged in Successfully", "success");
     } catch (err) {
       setIsLoading(false);
       const message = err.response.data.message || "Login Failed";
