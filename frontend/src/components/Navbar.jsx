@@ -12,29 +12,29 @@ function Navbar() {
   }
 
   return (
-    <nav className="h-12 lg:h-16 w-full bg-white/10 backdrop-blur-md border-b border-white/20 fixed bottom-0 lg:top-0 z-10">
+    <nav className="h-12 lg:h-16 w-full bg-white/10 backdrop-blur-md border-b border-gray-300 fixed bottom-0 lg:top-0 z-10">
       <div className="lg:hidden h-full w-full flex items-center justify-around">
         <div
           onClick={() => handleCurrTabChange("dashboard")}
-          className={`${currTab === "dashboard" ? "bg-white/30" : ""} text-slate-100 h-full flex-1 flex items-center  justify-center text-base font-medium cursor-pointer px-2 select-none`}
+          className={`${currTab === "dashboard" ? "bg-white/30 border border-gray-300" : ""} rounded-lg text-slate-100 h-full flex-1 flex items-center  justify-center text-base font-medium cursor-pointer px-2 select-none`}
         >
           <img src="/layout.png" alt="Dashboard" className="h-5" />
         </div>
         <div
           onClick={() => handleCurrTabChange("jobs")}
-          className={`${currTab === "jobs" ? "bg-white/30" : ""} text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
+          className={`${currTab === "jobs" ? "bg-white/30 border border-gray-300" : ""} rounded-lg text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
         >
           <img src="/view-list.png" alt="Dashboard" className="h-5" />
         </div>
         <div
           onClick={() => handleCurrTabChange("add")}
-          className={`${currTab === "add" ? "bg-white/30" : ""} text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
+          className={`${currTab === "add" ? "bg-white/30 border-gray-300" : ""} rounded-lg text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
         >
           <img src="/tab.png" alt="Dashboard" className="h-5" />
         </div>
         <div
           onClick={() => handleCurrTabChange("profile")}
-          className={`${currTab === "profile" ? "bg-white/30" : ""} text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
+          className={`${currTab === "profile" ? "bg-white/30 border-gray-300" : ""} rounded-lg text-slate-100 h-full flex-1 flex items-center justify-center text-base font-medium cursor-pointer px-2 select-none`}
         >
           <img src="/profile.png" alt="Dashboard" className="h-5" />
         </div>

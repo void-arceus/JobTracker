@@ -44,10 +44,10 @@ function Jobs() {
             </h1>
           </div>
           {/* filter div */}
-          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-xl w-fit">
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-gray-300 px-4 py-2 rounded-xl w-fit">
             <div className="w-full flex items-center gap-3">
               <p className="text-sm text-gray-700 font-medium">Filter:</p>
-              <select className="bg-white/30 backdrop-blur-md border border-white/20 text-gray-900 px-3 py-2 rounded-lg cursor-pointer outline-none focus:ring-2 focus:ring-violet-500 transition">
+              <select className="bg-white/30 backdrop-blur-md border border-gray-300 text-gray-900 px-3 py-2 rounded-lg cursor-pointer outline-none focus:ring-2 focus:ring-violet-500 transition">
                 <option value="all">All</option>
                 <option value="applied">Applied</option>
                 <option value="interview">Interview</option>
@@ -57,7 +57,7 @@ function Jobs() {
             </div>
           </div>
           {jobData.length > 0 ? (
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-200">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 transition-all duration-200">
               {jobData.map((job) => (
                 <JobCard
                   key={job._id}

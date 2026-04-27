@@ -16,7 +16,7 @@ function Main() {
   useEffect(() => {}, []);
 
   return isLoggedIn ? (
-    <main className="h-screen w-full bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 flex flex-col overflow-hidden">
+    <main className="h-screen w-full bg-gradient-to-br from-white via-slate-100 to-gray-200 flex flex-col overflow-hidden">
       <Navbar />
       <div className="flex flex-1 overflow-hidden">
         <SideBar />

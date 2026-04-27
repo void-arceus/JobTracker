@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 function LandingPage() {
   const navigate = useNavigate();
   return (
-    <main className="relative h-screen w-full px-4 bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 flex flex-col items-center justify-center gap-6">
-      <div className="absolute top-0 left-0 w-72 h-72 bg-purple-500/30 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-500/30 blur-3xl rounded-full"></div>
+    <main className="relative h-screen w-full px-4 bg-gradient-to-br from-white via-slate-100 to-gray-200 flex flex-col items-center justify-center gap-6">
+      <div className="absolute top-0 left-0 w-72 h-72 bg-slate-500/20 blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-slate-500/10 blur-3xl rounded-full"></div>
       <div className="w-full max-w-xl mx-auto z-10">
-        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-white/2  0 shadow-lg text-center flex flex-col items-center justify-center gap-6">
+        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-2xl border border-gray-300 shadow-lg text-center flex flex-col items-center justify-center gap-6">
           <h2 className="text-lg font-semibold tracking-white text-gray-800">
             Job Tracker
           </h2>
@@ -26,7 +26,7 @@ function LandingPage() {
             </button>
             <button
               onClick={() => navigate("/login")}
-              className="w-full p-3 bg-white/30 hover:bg-white/40 text-gray-800 rounded-lg hover:cursor-pointer font-medium shadow-lg"
+              className="w-full p-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg hover:cursor-pointer font-medium border border-gray-300 transition"
             >
               Login
             </button>

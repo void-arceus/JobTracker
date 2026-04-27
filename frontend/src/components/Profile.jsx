@@ -66,9 +66,9 @@ function Profile() {
               <EditProfileForm handleShowForm={handleShowForm} />
             </div>
           ) : (
-            <div className="h-full max-w-2xl mx-auto bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col gap-6">
+            <div className="h-full max-w-2xl mx-auto bg-white/20 backdrop-blur-xl border border-gray-300 shadow-sm shadow-black/5 rounded-2xl p-6 flex flex-col gap-6">
               <div className="flex items-center gap-5">
-                <div className="h-14 w-14 rounded-full bg-white/30 flex items-center justify-center text-lg font-semibold text-gray-900">
+                <div className="h-14 w-14 rounded-full bg-gradient-to-r from-indigo-400 to-violet-500 flex items-center justify-center text-xl font-semibold text-gray-900">
                   {currUser.username?.[0]?.toUpperCase() || "U"}
                 </div>
 
@@ -82,19 +82,19 @@ function Profile() {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white/20 rounded-lg p-3 flex flex-col">
+                <div className="bg-white/50 border border-gray-300 rounded-xl shadow-sm shadow-black/5 p-3 flex flex-col">
                   <span className="text-xs text-gray-600">Location</span>
                   <span className="text-sm font-medium text-gray-900">
                     {currUser.location || "Not specified"}
                   </span>
                 </div>
-                <div className="bg-white/20 rounded-lg p-3 flex flex-col">
+                <div className="bg-white/50 border border-gray-300 rounded-xl shadow-sm shadow-black/5 p-3 flex flex-col">
                   <span className="text-xs text-gray-600">Role</span>
                   <span className="text-sm font-medium text-gray-900">
                     {currUser.role || "Not specified"}
                   </span>
                 </div>
-                <div className="md:col-span-2 bg-white/20 rounded-lg p-3">
+                <div className="md:col-span-2 bg-white/50 border border-gray-300 rounded-xl shadow-sm shadow-black/5 rounded-lg p-3">
                   <span className="text-xs text-gray-600">About</span>
                   <p className="text-sm text-gray-900 mt-1">
                     {currUser.about || "No description"}
@@ -104,7 +104,7 @@ function Profile() {
               <div className="flex justify-end gap-3">
                 <button
                   onClick={LogoutUser}
-                  className="px-4 py-2 bg-white/20 hover:bg-white/30 text-gray-800 rounded-lg cursor-pointer"
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 rounded-lg cursor-pointer"
                 >
                   {isLoading ? <Spinner isLoading={isLoading} /> : "Logout"}
                 </button>

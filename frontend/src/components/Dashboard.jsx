@@ -31,31 +31,31 @@ function Dashboard() {
           </h1>
         </div>
         <div className="h-full w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-6 transition-all ease-in duration-300">
-          <div className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white/15 backdrop-blur-xl border border-gray-300 rounded-xl p-5 shadow-md shadow-black/5 hover:shadow-lg hover:-translate-y-0.5 transition">
             <p className="text-sm text-gray-700">Total Applications</p>
             <h2 className="text-3xl font-semibold text-gray-900">
               {userJobs.length}
             </h2>
           </div>
-          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+          <div className="bg-white/15 backdrop-blur-xl border border-gray-300 rounded-xl p-4 shadow-md shadow-black/5 hover:shadow-lg hover:-translate-y-0.5 transition">
             <p className="text-sm text-gray-700">Applied</p>
-            <h2 className="text-2xl font-semibold text-yellow-600">
+            <h2 className="text-2xl font-semibold text-yellow-500">
               {jobSummary.applied || 0}
             </h2>
           </div>
-          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+          <div className="bg-white/15 backdrop-blur-xl border border-gray-300 rounded-xl p-4 shadow-md hover:shadow-lg shadow-black/5 hover:-translate-y-0.5 transition">
             <p className="text-sm text-gray-700">Interview</p>
             <h2 className="text-2xl font-semibold text-blue-500">
               {jobSummary.interview || 0}
             </h2>
           </div>
-          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+          <div className="bg-white/15 backdrop-blur-xl border border-gray-300 shadow-black/5 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
             <p className="text-sm text-gray-700">Offer</p>
-            <h2 className="text-2xl font-semibold text-green-600">
+            <h2 className="text-2xl font-semibold text-green-500">
               {jobSummary.offer || 0}
             </h2>
           </div>
-          <div className="bg-white/15 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition">
+          <div className="bg-white/15 backdrop-blur-xl border border-gray-300 rounded-xl p-4 shadow-md shadow-black/5 hover:shadow-lg hover:-translate-y-0.5 transition">
             <p className="text-sm text-gray-700">Rejected</p>
             <h2 className="text-2xl font-semibold text-red-500">
               {jobSummary.rejected || 0}

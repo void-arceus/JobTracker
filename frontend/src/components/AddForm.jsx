@@ -89,7 +89,7 @@ function AddForm() {
 
   return (
     <section className="min-h-screen w-full px-2 pt-4 pb-16 lg:px-0 lg:pt-24">
-      <div className="h-auto max-w-3xl mx-auto bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
+      <div className="h-auto max-w-3xl mx-auto bg-white/15 backdrop-blur-xl border border-gray-300 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
         <h1 className="text-2xl text-gray-800 font-bold text-center">
           Add Job
         </h1>
@@ -106,7 +106,7 @@ function AddForm() {
               type="text"
               required
               placeholder="Company Name"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -118,7 +118,7 @@ function AddForm() {
               type="text"
               required
               placeholder="Position"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -130,7 +130,7 @@ function AddForm() {
               type="text"
               required
               placeholder="Location"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -142,7 +142,7 @@ function AddForm() {
               type="text"
               required
               placeholder="Job Type"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -154,7 +154,7 @@ function AddForm() {
               type="date"
               required
               placeholder="Applied On"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -165,7 +165,7 @@ function AddForm() {
               onChange={(e) => setStatus(e.target.value)}
               required
               placeholder="Position"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 cursor-pointer outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3.5 rounded-lg focus:ring-2 focus:ring-violet-500 cursor-pointer outline-none transition duration-300"
             >
               <option value="applied">Applied</option>
               <option value="interview">Interview</option>
@@ -181,7 +181,7 @@ function AddForm() {
               onChange={(e) => setNote(e.target.value)}
               type="text"
               placeholder="Add a note...(Optional)"
-              className="bg-white/30 border border-white/20 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
+              className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none transition duration-300"
             />
           </div>
           <div className="col-span-full flex justify-end gap-3">
@@ -190,7 +190,7 @@ function AddForm() {
               onClick={() => {
                 jobEditing ? handleCancelJobEdit() : clearInputFields();
               }}
-              className="px-4 py-2 bg-white/20 hover:bg-white/30 text-gray-800 rounded-lg cursor-pointer"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-800 rounded-lg cursor-pointer transition"
             >
               {jobEditing ? "Cancel" : "Clear"}
             </button>

@@ -35,9 +35,9 @@ function JobCard({ job, handleJobsChange }) {
   };
 
   return (
-    <div className="w-full bg-white/15 backdrop-blur-xl border border-white/20 rounded-xl p-5 flex flex-col gap-4 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
+    <div className="w-full bg-white/15 backdrop-blur-xl border border-gray-300 rounded-xl p-5 flex flex-col gap-4 shadow-md hover:shadow-lg shadow-black/5 hover:scale-[1.02] transition-all duration-200">
       {/* HEADER */}
-      <div className="flex items-center gap-4 border-b border-white/20 pb-3">
+      <div className="flex items-center gap-4 border-b border-gray-300 pb-3">
         <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gradient-to-br from-violet-500 to-indigo-500 text-white font-bold text-lg">
           {job.companyName?.charAt(0).toUpperCase()}
         </div>

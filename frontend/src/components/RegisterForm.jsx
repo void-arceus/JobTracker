@@ -45,10 +45,10 @@ function RegisterForm() {
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-purple-300 via-violet-400 to-indigo-500 min-h-screen w-full p-2 py-3 lg:pt-18 lg:pb-18 flex items-center justify-center">
+    <div className="relative min-h-screen w-full p-2 py-3 lg:pt-18 lg:pb-18 flex items-center justify-center">
       <form
         onSubmit={handleFormSubmit}
-        className="w-full max-w-lg p-2 sm:p-4 py-4 bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl flex flex-col items-center gap-4"
+        className="w-full max-w-lg p-2 sm:p-4 py-10 bg-white/15 backdrop-blur-xl border border-gray-300 rounded-2xl shadow-xl flex flex-col items-center gap-4"
       >
         <h1 className="text-3xl text-gray-800 font-bold tracking-wide">
           CREATE ACCOUNT
@@ -59,7 +59,7 @@ function RegisterForm() {
             name="username"
             type="text"
             placeholder="Username"
-            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500  transition ease-in-out duration-300"
+            className="w-full bg-white/30 border border-gray-300 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-purple-500  transition ease-in-out duration-300"
           />
         </div>
         <div className="w-full flex flex-col items-start gap-1">
@@ -68,7 +68,7 @@ function RegisterForm() {
             name="email"
             type="email"
             placeholder="Enter your email"
-            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+            className="w-full bg-white/30 border border-gray-300 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-purple-500 transition ease-in-out duration-300"
           />
         </div>
         <div className="w-full flex flex-col items-start gap-1">
@@ -77,7 +77,7 @@ function RegisterForm() {
             name="password"
             type="password"
             placeholder="Password"
-            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+            className="w-full bg-white/30 border border-gray-300 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-purple-500 transition ease-in-out duration-300"
           />
         </div>
         <div className="w-full flex flex-col items-start gap-1">
@@ -88,7 +88,7 @@ function RegisterForm() {
             name="confirmPassword"
             type="password"
             placeholder="Confirm Password"
-            className="w-full bg-white/30 border border-white/20 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-violet-500 transition ease-in-out duration-300"
+            className="w-full bg-white/30 border border-gray-300 text-gray-900 placeholder-gray-600 shadow-sm shadow-black/10 font-normal text-base p-3.5 rounded-lg ring-0 outline-0 focus:ring-2 focus:ring-purple-500 transition ease-in-out duration-300"
           />
         </div>
         <div className="w-full">
@@ -108,7 +108,7 @@ function RegisterForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full p-3 border border-purple-500/40 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-base font-medium cursor-pointer shadow-lg shadow-purple-500 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-purple-600"
+            className="w-full p-3 border border-purple-500/40 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-base font-medium cursor-pointer shadow-md shadow-purple-500/50 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-80 disabled:hover:bg-purple-600"
           >
             {isLoading ? <Spinner isLoading={isLoading} /> : "Register"}
           </button>
@@ -117,7 +117,7 @@ function RegisterForm() {
             onClick={() => {
               navigate("/login");
             }}
-            className="w-full p-3 bg-white/25 border border-white/10 text-gray-800 font-medium hover:bg-white/35 rounded-lg cursor-pointer"
+            className="w-full p-3 bg-gray-100 border border-gray-300 text-gray-800 font-medium hover:bg-gray-200 rounded-lg cursor-pointer transition"
           >
             Cancel
           </button>

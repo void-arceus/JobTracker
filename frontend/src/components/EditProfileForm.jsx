@@ -4,6 +4,8 @@ import axios from "axios";
 import Spinner from "../Animations/Spinner";
 import { useToast } from "../context/ToastContext";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function EditProfileForm({ handleShowForm }) {
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +17,7 @@ function EditProfileForm({ handleShowForm }) {
 
   function getUserData() {
     axios
-      .get(`http://localhost:3000/api/auth/currentUser`)
+      .get(`${BASE_URL}/auth/currentUser`)
       .then((res) => {
         setUserData(res.data.data);
       })
@@ -43,7 +45,7 @@ function EditProfileForm({ handleShowForm }) {
   }
 
   return (
-    <div className="h-full max-w-2xl mx-auto bg-white/15 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col gap-6">
+    <div className="h-full max-w-2xl mx-auto bg-white/15 backdrop-blur-xl border border-gray-300 rounded-2xl shadow-xl p-6 flex flex-col gap-6">
       <h2 className="text-center text-lg font-semibold text-gray-900">
         Edit Profile
       </h2>
@@ -60,7 +62,7 @@ function EditProfileForm({ handleShowForm }) {
               setUserData({ ...userData, username: e.target.value });
             }}
             placeholder="username"
-            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+            className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -72,7 +74,7 @@ function EditProfileForm({ handleShowForm }) {
               setUserData({ ...userData, email: e.target.value });
             }}
             placeholder="Email"
-            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+            className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -84,7 +86,7 @@ function EditProfileForm({ handleShowForm }) {
               setUserData({ ...userData, location: e.target.value });
             }}
             placeholder="username"
-            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+            className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -96,7 +98,7 @@ function EditProfileForm({ handleShowForm }) {
               setUserData({ ...userData, role: e.target.value });
             }}
             placeholder="username"
-            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+            className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
           />
         </div>
         <div className="md:col-span-2 flex flex-col gap-1">
@@ -108,7 +110,7 @@ function EditProfileForm({ handleShowForm }) {
             onChange={(e) => {
               setUserData({ ...userData, about: e.target.value });
             }}
-            className="bg-white/30 border border-white/20 text-gray-900 p-2.5 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
+            className="bg-white/30 border border-gray-300 text-gray-900 p-3 rounded-lg focus:ring-2 focus:ring-violet-500 outline-none"
           />
         </div>
         <div className="col-span-full flex justify-end gap-3">
@@ -117,7 +119,7 @@ function EditProfileForm({ handleShowForm }) {
             onClick={() => {
               handleShowForm();
             }}
-            className="px-4 py-2 bg-white/20 hover:bg-white/30 text-gray-800 rounded-lg cursor-pointer"
+            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 rounded-lg cursor-pointer"
           >
             Cancel
           </button>
