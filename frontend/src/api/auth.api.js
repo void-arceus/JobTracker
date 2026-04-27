@@ -9,14 +9,14 @@ export async function handleLogin(userData) {
 
 export async function handleRegister(userData) {
   await axios
-    .post(`${BASE_URL}/auth/register`, userData)
+    .post(`${BASE_URL}/api/auth/register`, userData)
     .then((res) => console.log(res))
     .catch((err) => console.error(err));
 }
 
 export async function handleLogoutUser() {
   await axios
-    .post(`${BASE_URL}/auth/logout`)
+    .post(`${BASE_URL}/api/auth/logout`)
     .then()
     .catch((err) => {
       console.error(err);

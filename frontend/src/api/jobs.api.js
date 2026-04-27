@@ -9,7 +9,7 @@ export async function getUserJobs() {
 
 export async function addNewJob(jobData) {
   await axios
-    .post(`${BASE_URL}/jobs/addJob`, jobData)
+    .post(`${BASE_URL}/api/jobs/addJob`, jobData)
     .then()
     .catch((err) => {
       console.error(err);
@@ -17,13 +17,13 @@ export async function addNewJob(jobData) {
 }
 
 export async function updateJob(data) {
-  const res = await axios.patch(`${BASE_URL}/jobs/updateJob`, { data });
+  const res = await axios.patch(`${BASE_URL}/api/jobs/updateJob`, { data });
   return res;
 }
 
 export async function deleteJob(id) {
   await axios
-    .delete(`${BASE_URL}/jobs/deleteJob/${id}`)
+    .delete(`${BASE_URL}/api/jobs/deleteJob/${id}`)
     .then()
     .catch((err) => console.error(err));
 }
