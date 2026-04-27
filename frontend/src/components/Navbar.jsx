@@ -53,7 +53,7 @@ function Navbar() {
           </h1>
           <button
             onClick={handleLogout}
-            className="text-purple-700 font-medium px-3 py-1 bg-white/20 rounded-lg transition hover:bg-white/30 hover:text-purple-800 hover:cursor-pointer"
+            className="text-purple-700 font-medium px-3 py-1 bg-gray-100 border border-gray-300 rounded-lg transition hover:bg-gray-200 hover:text-purple-800 hover:cursor-pointer"
           >
             Logout
           </button>
