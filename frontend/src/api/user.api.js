@@ -10,6 +10,6 @@ export async function updateProfile(data) {
 }
 
 export async function getCurrentUser() {
-  const res = await axios.get(`${BASE_URL}/auth/currentUser`);
+  const res = await axios.get(`${BASE_URL}/api/auth/currentUser`);
   return res.data.data;
 }
